@@ -1,0 +1,53 @@
+1.
+SELECT products.* , promotions.name AS promotion_name,promotions_products.id AS promotions_products_id
+                    FROM promotions_products
+                    INNER JOIN promotions ON (promotions_products.promotion_id = promotions.id)
+                    INNER JOIN products ON (promotions_products.product_id = products.id)
+
+shows products informations with promotion_name and promotions_products_id where promotions_products points with foreign ids
+to products and promotions at the same time
+
+2.
+SELECT products.*,categories.name AS category_name, subcategories.name AS subcategory_name
+                FROM products
+                INNER JOIN subcategories ON (products.subcategory_id = subcategories.id )
+                INNER JOIN categories ON (subcategories.category = categories.id )
+                INNER JOIN organization_brands ON (organization_brands.brand_id = categories.brand_id)
+                WHERE organization_brands.organization_id = $currentClientId
+                GROUP BY products.id
+
+select all products information, category_name, and subcategory_name such that everyone of the products belongs to
+a specific originzation according to categories and subcategories where organization_id is given by the user
+and group them by products.id
+
+3.
+SELECT brands.*,vendors.name AS vendor_name
+                    FROM brands
+                    INNER JOIN organization_brands ON (organization_brands.brand_id = brands.id)
+                    INNER JOIN organization_vendors ON (brands.vendor_id = organization_vendors.vendor_id)
+                    INNER JOIN vendors ON (organization_vendors.vendor_id = vendors.id)
+                    WHERE organization_brands.organization_id = $currentClientId
+                    GROUP BY brands.id
+
+select all brands information and vendor_name such that brands joins organization_brands,organization_vendors, vendors
+where organization_id is given by user and then grouped by brands.id
+
+4.
+SELECT products.name AS product_name, promotions.name as promotion_name
+                    FROM sales
+                    INNER JOIN promotions_products ON (sales.promotion_product_id = promotions_products.id)
+                    INNER JOIN products ON (promotions_products.product_id = products.id)
+                    INNER JOIN promotions ON ( promotions_products.promotion_id = promotions.id)
+                    WHERE sales.id = {$r[‘id’]}
+
+instead of putting name in table promotions put the name in promotion_products so the query will be:
+
+SELECT products.name AS product_name, promotions_productsas promotion_name
+                    FROM sales
+                    INNER JOIN promotions_products ON (sales.promotion_product_id = promotions_products.id)
+                    INNER JOIN products ON (promotions_products.product_id = products.id)
+                    WHERE sales.id = {$r[‘id’]}
+
+5.
+as for previlages for users the role is saved in the jwt as I did in the project which makes button disabled
+for clients but enabled for admin whose id is 1

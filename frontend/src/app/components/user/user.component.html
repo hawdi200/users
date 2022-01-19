@@ -1,0 +1,10 @@
+<h1>Welcome {{title}}</h1>
+<table>
+  <tr>
+    <td *ngIf="role"><button class="btn btn-primary" (click)="adduser()">Add User</button></td>
+    <td><button class="btn btn-primary" (click)="edituser()">Edit User</button></td>
+    <td><button class="btn btn-primary" (click)="logout()">Logout</button></td>
+  </tr>
+</table><br>
+<div>{{registered}}</div>
+<div>{{edited}}</div>
