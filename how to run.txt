@@ -1,0 +1,6 @@
+using vscode:
+
+open the folder backend and run npm start
+open new vscode windows and open frontend folder and run ng serve
+
+open browser and use url localhost:4200
